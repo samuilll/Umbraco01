@@ -1,0 +1,8 @@
+﻿@inherits UmbracoViewPage
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+        <h2>@((Umbraco.AssignedContentItem.HasProperty("title") && !string.IsNullOrEmpty(Umbraco.AssignedContentItem.GetPropertyValue<string>("title"))) ? Umbraco.AssignedContentItem.GetPropertyValue<string>("title") : Umbraco.AssignedContentItem.Name)</h2>
+        @Html.Raw(Umbraco.AssignedContentItem.GetPropertyValue<string>("subTitle"))
+            @*<p><span>Created with <i class="sl-icon-heart"></i> by the fine folks at <a href="http://freehtml5.co">FreeHTML5.co</a></span></p>*@
+    </div>
+</div>
