@@ -42,7 +42,13 @@ namespace UmbracoTest_03.Controllers
         }
         public ActionResult RenderBlog()
         {
-            return PartialView($"{PARTIAL_VIEW_FOLDER}_Blog.cshtml");
+            IPublishedContent homePage = Umbraco.ContentAtRoot().FirstOrDefault();
+            string title = homePage.GetPropertyValue<string>("latestBlogTitle");
+            string introduction = homePage.GetPropertyValue<string>("latestBlogPostsIntroduction");
+
+            LatestBlogPosts model = new LatestBlogPosts() { Title = title, Introduction = introduction };
+
+            return PartialView($"{PARTIAL_VIEW_FOLDER}_Blog.cshtml",model);
         }
         public ActionResult RenderClients()
         {

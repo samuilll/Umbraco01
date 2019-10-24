@@ -1,14 +1,14 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
-    Layout = "WebBase.cshtml";
+	Layout = "WebBase.cshtml";
 }
 
-@{Html.RenderAction("RenderIntro", "Home");}
+        @{Html.RenderAction("RenderIntro","Home");}
 
-@{Html.RenderAction("RenderFeaturedSection", "Home");}
+        @{Html.RenderAction("RenderFeaturedSection","Home");}
 
-@{Html.RenderAction("RenderServicesSection", "Home");}
+        @{Html.RenderAction("RenderServicesSection","Home");}
 
-@{Html.RenderAction("RenderPostList", "Blog",new { numberOfitems =3});}
+        @{Html.RenderAction("RenderBlog","Home");}
 
-@{Html.RenderAction("RenderClients", "Home");}
+        @{Html.RenderAction("RenderClients","Home");}

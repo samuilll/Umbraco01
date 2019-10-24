@@ -1,0 +1,21 @@
+﻿@model UmbracoTest_03.Models.Contact
+
+@using (Html.BeginUmbracoForm("SubmitForm", "Contact", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
+
+    @Html.LabelFor(m => m.FirstName);
+    @Html.TextBoxFor(m => m.FirstName);
+
+    @Html.LabelFor(m => m.LastName);
+    @Html.TextBoxFor(m => m.LastName);
+
+    @Html.LabelFor(m => m.EmailAddress);
+    @Html.TextBoxFor(m => m.EmailAddress);
+
+    @Html.LabelFor(m => m.Message);
+    @Html.TextAreaFor(m => m.Message);
+
+    <button>Submit</button>
+}

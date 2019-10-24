@@ -8,8 +8,8 @@ using  Umbraco.Web;
 using  Umbraco.ModelsBuilder;
 using  Umbraco.ModelsBuilder.Umbraco;
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "14867f7c1668acaf")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "10864147762307d2")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.3")]
 
 
 // FILE: models.generated.cs
@@ -360,50 +360,6 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 	}
 
-	/// <summary>Contact</summary>
-	[PublishedContentModel("contact")]
-	public partial class Contact : PublishedContentModel, ITitleControls
-	{
-#pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "contact";
-		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
-#pragma warning restore 0109
-
-		public Contact(IPublishedContent content)
-			: base(content)
-		{ }
-
-#pragma warning disable 0109 // new is redundant
-		public new static PublishedContentType GetModelContentType()
-		{
-			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
-		}
-#pragma warning restore 0109
-
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Contact, TValue>> selector)
-		{
-			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
-		}
-
-		///<summary>
-		/// SubTitle
-		///</summary>
-		[ImplementPropertyType("subTitle")]
-		public IHtmlString SubTitle
-		{
-			get { return Umbraco.Web.PublishedContentModels.TitleControls.GetSubTitle(this); }
-		}
-
-		///<summary>
-		/// Title
-		///</summary>
-		[ImplementPropertyType("title")]
-		public string Title
-		{
-			get { return Umbraco.Web.PublishedContentModels.TitleControls.GetTitle(this); }
-		}
-	}
-
 	/// <summary>Content</summary>
 	[PublishedContentModel("content")]
 	public partial class Content : PublishedContentModel, IBasicContentControls, ITitleControls
@@ -459,7 +415,7 @@ namespace Umbraco.Web.PublishedContentModels
 
 	/// <summary>Home</summary>
 	[PublishedContentModel("home")]
-	public partial class Home : PublishedContentModel, IFeaturedItemsControls, IIntroControls
+	public partial class Home : PublishedContentModel, IFeaturedItemsControls, IIntroControls, ILatestBlogControllers
 	{
 #pragma warning disable 0109 // new is redundant
 		public new const string ModelTypeAlias = "home";
@@ -498,6 +454,24 @@ namespace Umbraco.Web.PublishedContentModels
 		public string Intro
 		{
 			get { return Umbraco.Web.PublishedContentModels.IntroControls.GetIntro(this); }
+		}
+
+		///<summary>
+		/// Latest blog posts introduction: Enter the introduction text for the latest blog
+		///</summary>
+		[ImplementPropertyType("latestBlogPostsIntroduction")]
+		public IHtmlString LatestBlogPostsIntroduction
+		{
+			get { return Umbraco.Web.PublishedContentModels.LatestBlogControllers.GetLatestBlogPostsIntroduction(this); }
+		}
+
+		///<summary>
+		/// Latest Blog Title: Enter the title for the latest blog section
+		///</summary>
+		[ImplementPropertyType("latestBlogTitle")]
+		public string LatestBlogTitle
+		{
+			get { return Umbraco.Web.PublishedContentModels.LatestBlogControllers.GetLatestBlogTitle(this); }
 		}
 	}
 
@@ -764,6 +738,119 @@ namespace Umbraco.Web.PublishedContentModels
 		public string Title
 		{
 			get { return Umbraco.Web.PublishedContentModels.TitleControls.GetTitle(this); }
+		}
+	}
+
+	// Mixin content Type 3076 with alias "latestBlogControllers"
+	/// <summary>Latest Blog Controllers</summary>
+	public partial interface ILatestBlogControllers : IPublishedContent
+	{
+		/// <summary>Latest blog posts introduction</summary>
+		IHtmlString LatestBlogPostsIntroduction { get; }
+
+		/// <summary>Latest Blog Title</summary>
+		string LatestBlogTitle { get; }
+	}
+
+	/// <summary>Latest Blog Controllers</summary>
+	[PublishedContentModel("latestBlogControllers")]
+	public partial class LatestBlogControllers : PublishedContentModel, ILatestBlogControllers
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "latestBlogControllers";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public LatestBlogControllers(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<LatestBlogControllers, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Latest blog posts introduction: Enter the introduction text for the latest blog
+		///</summary>
+		[ImplementPropertyType("latestBlogPostsIntroduction")]
+		public IHtmlString LatestBlogPostsIntroduction
+		{
+			get { return GetLatestBlogPostsIntroduction(this); }
+		}
+
+		/// <summary>Static getter for Latest blog posts introduction</summary>
+		public static IHtmlString GetLatestBlogPostsIntroduction(ILatestBlogControllers that) { return that.GetPropertyValue<IHtmlString>("latestBlogPostsIntroduction"); }
+
+		///<summary>
+		/// Latest Blog Title: Enter the title for the latest blog section
+		///</summary>
+		[ImplementPropertyType("latestBlogTitle")]
+		public string LatestBlogTitle
+		{
+			get { return GetLatestBlogTitle(this); }
+		}
+
+		/// <summary>Static getter for Latest Blog Title</summary>
+		public static string GetLatestBlogTitle(ILatestBlogControllers that) { return that.GetPropertyValue<string>("latestBlogTitle"); }
+	}
+
+	/// <summary>Search</summary>
+	[PublishedContentModel("search")]
+	public partial class Search : PublishedContentModel
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "search";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public Search(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Search, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+	}
+
+	/// <summary>Contact</summary>
+	[PublishedContentModel("contact")]
+	public partial class Contact : PublishedContentModel
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "contact";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public Contact(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Contact, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 		}
 	}
 
